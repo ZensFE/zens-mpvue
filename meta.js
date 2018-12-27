@@ -24,7 +24,7 @@ module.exports = {
       "type": "string",
       "required": false,
       "message": "Project description",
-      "default": "A Mpvue project"
+      "default": "A Zens MiniProgram project"
     },
     "author": {
       "type": "string",
@@ -49,36 +49,6 @@ module.exports = {
     "vuex": {
       "type": "confirm",
       "message": "Use Vuex?"
-    },
-    "lint": {
-      "type": "confirm",
-      "message": "Use ESLint to lint your code?"
-    },
-    "lintConfig": {
-      "when": "lint",
-      "type": "list",
-      "message": "Pick an ESLint preset",
-      "choices": [
-        {
-          "name": "Standard (https://github.com/feross/standard)",
-          "value": "standard",
-          "short": "Standard"
-        },
-        {
-          "name": "Airbnb (https://github.com/airbnb/javascript)",
-          "value": "airbnb",
-          "short": "Airbnb"
-        },
-        {
-          "name": "none (configure it yourself)",
-          "value": "none",
-          "short": "none"
-        }
-      ]
-    },
-    "test": {
-      "value": false,
-      "message": "小程序测试，敬请关注最新微信开发者工具的“测试报告”功能"
     }
   },
   "filters": {
