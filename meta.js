@@ -45,10 +45,6 @@ module.exports = {
           "short": "runtime"
         }
       ]
-    },
-    "vuex": {
-      "type": "confirm",
-      "message": "Use Vuex?"
     }
   },
   "filters": {
