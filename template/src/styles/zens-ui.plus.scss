@@ -14,9 +14,10 @@
   $primary: #A67A57;
 
   // 扩展颜色列表
-  $apricot: #F6CBA1;  //杏色
-  $mocha: #D5D7B0;    //抹茶色
-  $color-list: ( 'abricot': $apricot, 'mocha': $mocha, 'lighter': #f6f6f6);
+  // 注意：每扩展一个颜色定义 都会使得CSS包变大
+  //$apricot: #F6CBA1;  //杏色
+  //$mocha: #D5D7B0;    //抹茶色
+  //$color-list: ( 'abricot': $apricot, 'mocha': $mocha, 'lighter': #f6f6f6);
 
   // 字体大小重新定义
   $font-size-min: 20;

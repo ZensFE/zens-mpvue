@@ -1,4 +1,3 @@
-import '../static/sdk/ald-stat'
 import Vue from 'vue'
 import App from './App'
 import global from './global/global'
