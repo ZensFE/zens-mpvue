@@ -327,7 +327,6 @@ let snapGet = (key) => {
   }
 }
 
-
 export default {
   getFormId,
   savePicture,
