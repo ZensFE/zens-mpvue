@@ -1,4 +1,5 @@
 import http from './http.js'
+import config from './config.json'
 
 let getFormId = function (formData) {
   return http.request({

@@ -1,0 +1,33 @@
+.zens-container {
+  // 定制化ZensUI的参数
+
+  // 灰度值重新定义
+  $gray-list: (
+      'darker':     #333,
+      'dark':       #666,
+      'gray':       #999,
+      'light':      #ccc,
+      'lighter':    #f6f6f6
+  );
+
+  // 修改主色
+  $primary: #A67A57;
+
+  // 扩展颜色列表
+  $apricot: #F6CBA1;  //杏色
+  $mocha: #D5D7B0;    //抹茶色
+  $color-list: ( 'abricot': $apricot, 'mocha': $mocha, 'lighter': #f6f6f6);
+
+  // 字体大小重新定义
+  $font-size-min: 20;
+
+  // 布局及布局增长梯度定义
+  $box-increase-gradient: 5;
+  $layout-number: 10;
+
+  // radius重新定义
+  $border-radius-base: 10rpx;
+
+  // 引入ZensUI生成最终版zens.ui
+  @import "~zens-ui/scss/ZensUI.mp";
+}
