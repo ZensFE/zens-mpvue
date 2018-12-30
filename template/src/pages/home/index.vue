@@ -13,16 +13,10 @@
 </template>
 
 <script>
-// import utils from '../../utils/utils.js'
-// import http from '../../utils/http.js'
-import formId from '../../mixins/formId'
-import urlParams from '../../mixins/urlParams'
 export default {
-  mixins: [formId, urlParams],
   data () {
     return {
-      welcomeShow: true,
-      $a: ''
+      welcomeShow: true
     }
   },
   methods: {
@@ -33,7 +27,6 @@ export default {
       showCancel: false,
       content: 'App.vue中的utils.wxLogin()已被注释'
     })
-    console.log(this.query, this.$a)
   }
 }
 </script>
