@@ -1,4 +1,4 @@
-import utils from '../utils/utils'
+import utils from '../../utils/utils'
 const tryToBeNumber = str => isNaN(Number(str)) ? str : Number(str)
 
 export default {
@@ -11,7 +11,7 @@ export default {
     }
   },
   onShow () {
-    const mpQuery = this.$root.$mp.query
+    const mpQuery = this.$root.$mp.appOptions.query
     let sceneParams = {}
     if (mpQuery.scene) {
       sceneParams = utils.parseQueryString(mpQuery.scene)

@@ -1,11 +1,13 @@
 import Vue from 'vue'
 import App from './App'
 import global from './global/global'
+import Zens from './lib/zens'
 
 Vue.prototype.vGlobal = global
 
 Vue.config.productionTip = false
 App.mpType = 'app'
+Vue.use(Zens)
 
 const app = new Vue(App)
 app.$mount()
