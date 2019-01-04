@@ -1,13 +1,16 @@
 import Vue from 'vue'
 import App from './App'
 import global from './global/global'
-import Zens from './lib/zens'
+import Clays from 'clays'
+import utils from './utils/utils'
 
 Vue.prototype.vGlobal = global
 
 Vue.config.productionTip = false
 App.mpType = 'app'
-Vue.use(Zens)
+Vue.use(Clays, {
+  getFormId: utils.getFormId
+})
 
 const app = new Vue(App)
 app.$mount()

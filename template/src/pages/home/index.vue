@@ -1,5 +1,5 @@
 <template>
-  <form report-submit="true" @submit="formIdCollect" class="zens-container">
+  <clays>
     <img src="https://zens-pic.oss-cn-shenzhen.aliyuncs.com/static/space/in1.jpg"
          mode="widthFix" style="width: 100%;"
          class="dummy-img" alt="">
@@ -9,7 +9,7 @@
       <button class="btn red pill">红色</button>
       <button class="btn gray radius">授权页</button>
     </div>
-
+    <hr>
     <div class="flex-container padding30">
       <div class="btn-group">
         <button class="btn pill">左侧按钮</button>
@@ -25,7 +25,8 @@
       <text class="icon-plus fs-40"></text>
       <text class="icon-reduce fs-40"></text>
     </div>
-  </form>
+    <button class="btn big fixed-bottom">底部按钮</button>
+  </clays>
 </template>
 
 <script>
@@ -36,6 +37,7 @@ export default {
     }
   },
   methods: {
+
   },
   onShow () {
     wx.showModal({
@@ -52,5 +54,10 @@ export default {
   }
 </style>
 <style scoped lang="scss">
-  
+  .xModel {
+    .fixed-bottom {
+      box-sizing: content-box;
+      padding-bottom: 20rpx;
+    }
+  }
 </style>

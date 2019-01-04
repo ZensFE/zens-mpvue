@@ -69,8 +69,15 @@ module.exports = {
               }
             },{
                 test: /\.vue$/,
-                loader: 'mpvue-loader',
-                options: vueLoaderConfig
+                use: [
+                    {
+                      loader: 'mpvue-loader',
+                      options: vueLoaderConfig
+                    },
+                    {
+                      loader: 'clays-loader'
+                    }
+                ]
             },
             {
                 test: /\.js$/,
