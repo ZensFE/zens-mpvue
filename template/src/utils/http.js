@@ -123,70 +123,64 @@ let request = function (config) {
       'sign': sign
     })
     return new Promise((resolve, reject) => {
-      wx.request({
-        url: uri,
-        data: data,
-        method: api.method ? api.method : 'POST',
-        header: {
-          'Content-Type': 'application/json',
-          'X-Miniprogram-Auth': wx.getStorageSync('skey') || ''
-        },
-        success: res => {
-          if (hasError(res.data)) {
-            resolve(res.data.result, res.data.message)
-          } else {
-            reject(res.data)
-          }
-        },
-        fail: res => {
-          reject(res.data)
-        },
-        complete: res => {
-          if (urlArray.indexOf(api.uri) > -1) {
-            return
-          }
-          let pages = getCurrentPages()
-          let pagesRoute = pages.length > 0 ? pages[pages.length - 1].route : ''
-          if (res.statusCode !== 200 && pagesRoute.indexOf('loadFail') === -1) {
-            // wx.navigateTo({
-            //   url: '../loadFail/main'
-            // })
-            wx.showToast({
-              title: '网络不给力~',
-              icon: 'none'
-            })
-            // 上报错误信息
-            wx.reportAnalytics('server_error', {
-              url: uri,
-              params: JSON.stringify(data),
-              http_code: res.statusCode
-            })
-          } else if (parseInt(res.data.code) === CODE.NO_USER_INFO && pagesRoute.indexOf('authorization') === -1 && !noNeedAuth) {
-            if (global.st) {
-              utils.replacePage('authorization')
+      wxRequest(resolve, reject)
+      function wxRequest (resolveFn, rejectFn) {
+        let skey = wx.getStorageSync('skey') || ''
+        wx.request({
+          url: uri,
+          data: data,
+          method: api.method ? api.method : 'POST',
+          header: {
+            'Content-Type': 'application/json',
+            'X-Miniprogram-Auth': skey
+          },
+          success: res => {
+            if (hasError(res.data)) {
+              resolveFn(res.data.result, res.data.message)
             } else {
-              utils.changePage('authorization')
+              if (skey) {
+                wx.removeStorageSync('skey')
+                utils.wxLogin().then(({skey = ''}) => {
+                  wx.setStorageSync('skey', skey)
+                  wxRequest(resolveFn, rejectFn)
+                })
+              } else {
+                rejectFn(res.data)
+              }
             }
-          } else if (parseInt(res.data.code) === CODE.NO_PHONE) {
-            utils.replacePage('authorization')
-          } else if (parseInt(res.data.code) === CODE.NO_BASE_INFO && pagesRoute.indexOf('authorization') === -1) {
-            utils.changePage('authorization')
-            // 理论上不应该出现接口返回-1的情况，如果返回上报
-            let page = getCurrentPages() || []
-            let pagePath = page.length ? (page[page.length - 1].route) : 'unkown'
-            wx.reportAnalytics('no_auth_1', {
-              time: Date.now(),
-              uuid: wx.getStorageSync('aldstat_uuid'),
-              page: pagePath,
-              uri: uri,
-              reqData: JSON.stringify(config.data)
-            })
+          },
+          fail: res => {
+            rejectFn(res.data)
+          },
+          complete: res => {
+            if (urlArray.indexOf(api.uri) > -1) {
+              return
+            }
+            let pages = getCurrentPages()
+            let pagesRoute = pages.length > 0 ? pages[pages.length - 1].route : ''
+            if (res.statusCode !== 200 && pagesRoute.indexOf('loadFail') === -1) {
+              wx.showToast({
+                title: '网络不给力~',
+                icon: 'none'
+              })
+            } else if (parseInt(res.data.code) === CODE.NO_USER_INFO && pagesRoute.indexOf('authorization') === -1 && !noNeedAuth) {
+              if (global.st) {
+                utils.replacePage('authorization')
+              } else {
+                utils.changePage('authorization')
+              }
+            } else if (parseInt(res.data.code) === CODE.NO_PHONE) {
+              utils.replacePage('authorization')
+            } else if (parseInt(res.data.code) === CODE.NO_BASE_INFO && pagesRoute.indexOf('authorization') === -1) {
+              if (!skey) {
+                utils.changePage('authorization')
+              }
+            }
           }
-        }
-      })
+        })
+      }
     })
   }
-  // return req()
   if (isLoginReq) {
     // 如果当前是login_mp接口的话 不需要等待wxLoginPromise
     return req()

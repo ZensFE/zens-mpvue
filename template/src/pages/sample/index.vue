@@ -5,9 +5,9 @@
          class="dummy-img" alt="">
 
     <div class="flex-container padding30">
-      <button form-type="submit" class="btn">主色</button>
+      <button form-type="submit" class="btn">formId</button>
       <button class="btn red pill">红色</button>
-      <button class="btn gray radius">授权页</button>
+      <button class="btn gray radius" @click="goAuth">授权页</button>
     </div>
     <hr>
     <div class="flex-container padding30">
@@ -30,6 +30,7 @@
 </template>
 
 <script>
+import utils from '../../utils/utils'
 export default {
   data () {
     return {
@@ -37,7 +38,9 @@ export default {
     }
   },
   methods: {
-
+    goAuth () {
+      utils.changePage('authorization')
+    }
   },
   onShow () {
     wx.showModal({
