@@ -3,10 +3,15 @@ import md5 from 'js-md5'
 import global, {CODE} from '../global/global.js'
 import utils from '../utils/utils.js'
 
+const APP_ID = {
+  TEST: 'wx7ad619f57bc5d947',
+  PRODUCT: 'wxa507cee6c03771b3'
+}
+
 // 线上环境
-let producationMode = {
+let productionMode = {
   host: 'ct.zens.asia',
-  port: '80',
+  port: '443',
   prefix: '/wxcx/',
   suffix: '',
   protocol: 'https'
@@ -14,31 +19,24 @@ let producationMode = {
 // 测试环境
 let testMode = {
   host: 'ct-demo.zens.asia',
-  port: '80',
+  port: '443',
   prefix: '/wxcx/',
   suffix: '',
   protocol: 'https'
 }
-let testModeB = {
-  host: 'test.zens.asia',
-  port: '80',
-  prefix: '/wxcx/',
-  suffix: '',
-  protocol: 'http'
-}
+
 // 预发布环境
 let testModeC = {
   host: 'ct-preview.zens.asia',
-  port: '80',
+  port: '443',
   prefix: '/wxcx/',
   suffix: '',
   protocol: 'https'
 }
 let modes = {
   test: testMode,
-  testB: testModeB,
   testPre: testModeC,
-  producation: producationMode
+  production: productionMode
 }
 let mode = ''
 let setMode = function (name) {
@@ -51,12 +49,11 @@ let getMode = function (name) {
   if (mode in modes) {
     return modes[mode]
   }
-  return modes.producation
+  return modes.production
 }
 let getBaseUrl = function (name) {
   let mo = getMode(name)
-  let port = mo.port === '80' ? '' : ':' + mo.port
-  return mo.protocol + '://' + mo.host + port + mo.prefix
+  return `${mo.protocol}://${mo.host}:${mo.port}${mo.prefix}`
 }
 let getApi = function (requestObj) {
   let splits = requestObj.to.split('.')
@@ -71,28 +68,24 @@ let getApi = function (requestObj) {
   }
 }
 let hasError = function (res) {
-  if (res.code === 0) {
-    return true
-  } else {
-    return false
-  }
+  return res.code === 0
 }
-let appid = 'wx7ad619f57bc5d947'
+let appId = ''
 let os = 'test'
 if (process.env.NODE_ENV === 'production') {
-  setMode('producation')
-  appid = 'wxa507cee6c03771b3'
+  setMode('production')
+  appId = APP_ID.PRODUCT
   os = 'mp'
 } else if (process.env.NODE_ENV === 'preview') {
+  appId = APP_ID.TEST
   setMode('testPre')
 } else {
-  // setMode('testB')
+  appId = APP_ID.TEST
   setMode('test')
 }
 let getAppid = function () {
-  return appid
+  return appId
 }
-let baseUrl = getBaseUrl()
 let request = function (config) {
   let api = getApi(config)
   config = Object.assign(config, api)
@@ -101,7 +94,7 @@ let request = function (config) {
   }
   let noNeedAuth = config.noNeedAuth || false
   let isLoginReq = config.isLoginReq || false
-  let uri = baseUrl + api.uri.replace(/\{(.*?)\}/g, (res, key) => {
+  let uri = getBaseUrl() + api.uri.replace(/\{(.*?)\}/g, (res, key) => {
     // 找到指定key后，删除对应值
     let value = config.data[key]
     delete config.data[key]
@@ -116,7 +109,7 @@ let request = function (config) {
   ]
   function req () {
     let data = Object.assign(config.data, {
-      'appid': appid,
+      'appid': appId,
       'os': os,
       'version': '1.0.0',
       'time': time,
