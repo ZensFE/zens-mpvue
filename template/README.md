@@ -16,6 +16,9 @@ npm run build
 
 # build for production and view the bundle analyzer report
 npm run build --report
+
+# create a new page
+npm run new pageName pageTitle
 {{#unit}}
 
 # run unit tests

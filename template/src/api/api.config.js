@@ -10,8 +10,15 @@ let wechat = {
   }
 }
 
+let share = {
+  getShare: {
+    uri: 'shareinflow'
+  }
+}
+
 const apis = {
-  wechat
+  wechat,
+  share
 }
 
 export default apis

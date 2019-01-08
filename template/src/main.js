@@ -3,13 +3,17 @@ import App from './App'
 import global from './global/global'
 import Clays from 'clays'
 import utils from './utils/utils'
+import http from './utils/http';
 
 Vue.prototype.vGlobal = global
 
 Vue.config.productionTip = false
 App.mpType = 'app'
 Vue.use(Clays, {
-  getFormId: utils.getFormId
+  getFormId: utils.getFormId,
+  changePage: utils.changePage,
+  replacePage: utils.replacePage,
+  request: http.request
 })
 
 const app = new Vue(App)

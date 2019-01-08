@@ -11,6 +11,28 @@ let getFormId = function (formData) {
     }
   })
 }
+let getShareInfo = function (parms) {
+  return new Promise((resolve, reject) => {
+    http.request({
+      to: 'share.getShare',
+      data: {
+        'sence': parms.scene,
+        'page': parms.page,
+        'parms': {
+          'page_parm': parms.query,
+          'encryptedData': parms.encryptedData ? parms.encryptedData : '',
+          'iv': parms.iv ? parms.iv : ''
+        }
+      }
+    }).then(() => {
+      resolve()
+    }, err => {
+      if (parseInt(err.error) === -1) {
+        reject(err)
+      }
+    })
+  })
+}
 let savePicture = function (pic) {
   wx.showLoading({
     title: '保存图片中...'
@@ -329,6 +351,7 @@ let snapGet = (key) => {
 
 export default {
   getFormId,
+  getShareInfo,
   savePicture,
   getQueryString,
   parseQueryString,
