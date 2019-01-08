@@ -46,7 +46,7 @@ export default {
     wx.showModal({
       title: '注意',
       showCancel: false,
-      content: 'App.vue中的utils.wxLogin()已被注释'
+      content: '请检查各环境参数配置，如appId和接口域名'
     })
   }
 }

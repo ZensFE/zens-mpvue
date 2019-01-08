@@ -8,6 +8,7 @@
     "dev": "node build/dev-server.js",
     "start": "node build/dev-server.js",
     "build": "node build/build.js",
+    "new": "node build/bin/new.js",
     "switch:private": "npm set registry http://120.77.37.44:4873",
     "switch:public": "npm set registry https://registry.npm.taobao.org/"
   },
@@ -28,6 +29,7 @@
     "prettier": "~1.12.1",
     "px2rpx-loader": "^0.1.10",
     "babel-core": "^6.22.1",
+    "file-save": "^0.2.0",
     "glob": "^7.1.2",
     "webpack-mpvue-asset-plugin": "^0.0.2",
     "webpack-mpvue-vendor-plugin": "^0.0.1",
