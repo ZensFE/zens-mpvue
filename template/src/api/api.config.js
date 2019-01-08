@@ -16,9 +16,16 @@ let share = {
   }
 }
 
+let user = {
+  userCenter: {
+    uri: 'user/user_center'
+  }
+}
+
 const apis = {
   wechat,
-  share
+  share,
+  user
 }
 
 export default apis
