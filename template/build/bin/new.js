@@ -29,8 +29,6 @@ const vueTemplate = `<template>
 </template>
 
 <script>
-// eslint-disable-next-line
-import utils from '../../utils/utils'
 export default {
   data () {
     return {}
