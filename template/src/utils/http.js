@@ -131,7 +131,7 @@ let request = function (config) {
             if (hasError(res.data)) {
               resolveFn(res.data.result, res.data.message)
             } else {
-              if (skey) {
+              if (skey && res.data.code === CODE.NO_BASE_INFO) {
                 wx.removeStorageSync('skey')
                 utils.wxLogin().then(({skey = ''}) => {
                   wx.setStorageSync('skey', skey)
