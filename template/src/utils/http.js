@@ -53,7 +53,7 @@ let getMode = function (name) {
 }
 let getBaseUrl = function (name) {
   let mo = getMode(name)
-  return `${mo.protocol}://${mo.host}:${mo.port}${mo.prefix}`
+  return `${mo.protocol}://${mo.host}:${mo.port}${mo.prefix}`.replace(/:443|:80/, '')
 }
 let getApi = function (requestObj) {
   let splits = requestObj.to.split('.')

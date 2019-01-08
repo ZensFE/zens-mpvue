@@ -3,7 +3,7 @@ import App from './App'
 import global from './global/global'
 import Clays from 'clays'
 import utils from './utils/utils'
-import http from './utils/http';
+import http from './utils/http'
 
 Vue.prototype.vGlobal = global
 
