@@ -14,11 +14,41 @@ module.exports = {
       "required": true,
       "message": "Project name"
     },
+    "testAppid": {
+      "type": "string",
+      "required": false,
+      "message": "测试号的appid（小号）",
+      "default": "touristappid"
+    },
     "appid": {
       "type": "string",
       "required": false,
-      "message": "wxmp appid",
+      "message": "正式号的appid（大号）",
       "default": "touristappid"
+    },
+    "testHost": {
+      "type": "string",
+      "required": false,
+      "message": "测试环境的服务端接口域名",
+      "default": "ct-demo.zens.asia"
+    },
+    "preHost": {
+      "type": "string",
+      "required": false,
+      "message": "预发布环境的服务端接口域名",
+      "default": "ct-preview.zens.asia"
+    },
+    "productHost": {
+      "type": "string",
+      "required": false,
+      "message": "线上环境的服务端接口域名",
+      "default": "ct.zens.asia"
+    },
+    "prefix": {
+      "type": "string",
+      "required": false,
+      "message": "接口地址前缀",
+      "default": "/wxcx/"
     },
     "description": {
       "type": "string",

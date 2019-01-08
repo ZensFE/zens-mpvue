@@ -4,32 +4,32 @@ import global, {CODE} from '../global/global.js'
 import utils from '../utils/utils.js'
 
 const APP_ID = {
-  TEST: 'wx7ad619f57bc5d947',
-  PRODUCT: 'wxa507cee6c03771b3'
+  TEST: '{{ testAppid }}',
+  PRODUCT: '{{ appid }}'
 }
-
+const prefix = '{{ prefix }}'
 // 线上环境
 let productionMode = {
-  host: 'ct.zens.asia',
+  host: '{{ productHost }}',
   port: '443',
-  prefix: '/wxcx/',
+  prefix: prefix,
   suffix: '',
   protocol: 'https'
 }
 // 测试环境
 let testMode = {
-  host: 'ct-demo.zens.asia',
+  host: '{{ testHost }}',
   port: '443',
-  prefix: '/wxcx/',
+  prefix: prefix,
   suffix: '',
   protocol: 'https'
 }
 
 // 预发布环境
 let testModeC = {
-  host: 'ct-preview.zens.asia',
+  host: '{{ preHost }}',
   port: '443',
-  prefix: '/wxcx/',
+  prefix: prefix,
   suffix: '',
   protocol: 'https'
 }
