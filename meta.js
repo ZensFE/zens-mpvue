@@ -14,6 +14,16 @@ module.exports = {
       "required": true,
       "message": "Project name"
     },
+    "description": {
+      "type": "string",
+      "required": false,
+      "message": "Project description",
+      "default": "A Zens MiniProgram project"
+    },
+    "author": {
+      "type": "string",
+      "message": "Author"
+    },
     "testAppid": {
       "type": "string",
       "required": false,
@@ -49,16 +59,6 @@ module.exports = {
       "required": false,
       "message": "接口地址前缀",
       "default": "/wxcx/"
-    },
-    "description": {
-      "type": "string",
-      "required": false,
-      "message": "Project description",
-      "default": "A Zens MiniProgram project"
-    },
-    "author": {
-      "type": "string",
-      "message": "Author"
     },
     "build": {
       "type": "list",
