@@ -85,7 +85,7 @@ fs.readFile(entryJsPath, {encoding: 'utf8'}, (err, content) => {
   })
   fileSave(entryJsPath)
     .write(fileContent, 'utf8')
-    .end('\n')
+    .end('')
 })
 
 console.log('搞定 !')
