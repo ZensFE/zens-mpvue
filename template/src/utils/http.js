@@ -1,6 +1,6 @@
 import apis from '../api/api.config.js'
 import md5 from 'js-md5'
-import global, {CODE} from '../global/global.js'
+import global, {CODE, LOADING_TYPE} from '../global/global.js'
 import utils from '../utils/utils.js'
 
 const APP_ID = {
@@ -67,6 +67,33 @@ let getApi = function (requestObj) {
     method: uri.method
   }
 }
+
+/**
+ * loading交互开始
+ * @param type
+ */
+let startLoading = (type) => {
+  if (type === LOADING_TYPE.TAB) {
+    wx.showNavigationBarLoading()
+  } else if (type === LOADING_TYPE.TOAST || type) {
+    wx.showLoading({
+      mask: true,
+      title: '加载中'
+    })
+  }
+}
+
+/**
+ * loading交互结束
+ * @param type
+ */
+let endLoading = (type) => {
+  if (type === LOADING_TYPE.TAB) {
+    wx.hideNavigationBarLoading()
+  } else if (type === LOADING_TYPE.TOAST || type) {
+    wx.hideLoading()
+  }
+}
 let hasError = function (res) {
   return res.code === 0
 }
@@ -94,6 +121,7 @@ let request = function (config) {
   }
   let noNeedAuth = config.noNeedAuth || false
   let isLoginReq = config.isLoginReq || false
+  let loadingType = config.loading || LOADING_TYPE.NONE
   let uri = getBaseUrl() + api.uri.replace(/\{(.*?)\}/g, (res, key) => {
     // 找到指定key后，删除对应值
     let value = config.data[key]
@@ -119,6 +147,7 @@ let request = function (config) {
       wxRequest(resolve, reject)
       function wxRequest (resolveFn, rejectFn) {
         let skey = wx.getStorageSync('skey') || ''
+        startLoading(loadingType)
         wx.request({
           url: uri,
           data: data,
@@ -146,6 +175,7 @@ let request = function (config) {
             rejectFn(res.data)
           },
           complete: res => {
+            endLoading(loadingType)
             if (urlArray.indexOf(api.uri) > -1) {
               return
             }

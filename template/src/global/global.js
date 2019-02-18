@@ -12,6 +12,12 @@ export const CODE = Object.freeze({
   RESERVED: 20006
 })
 
+export const LOADING_TYPE = Object.freeze({
+  NONE: 0,
+  TAB: 1,
+  TOAST: 2
+})
+
 export default {
   skey: null,
   scene: null,
