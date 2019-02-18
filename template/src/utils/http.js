@@ -77,7 +77,7 @@ if (process.env.NODE_ENV === 'production') {
   appId = APP_ID.PRODUCT
   os = 'mp'
 } else if (process.env.NODE_ENV === 'preview') {
-  appId = APP_ID.TEST
+  appId = APP_ID.PRODUCT
   setMode('testPre')
 } else {
   appId = APP_ID.TEST
