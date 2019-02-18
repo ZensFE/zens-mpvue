@@ -144,64 +144,51 @@ let request = function (config) {
       'sign': sign
     })
     return new Promise((resolve, reject) => {
-      wxRequest(resolve, reject)
-      function wxRequest (resolveFn, rejectFn) {
-        let skey = wx.getStorageSync('skey') || ''
-        startLoading(loadingType)
-        wx.request({
-          url: uri,
-          data: data,
-          method: api.method ? api.method : 'POST',
-          header: {
-            'Content-Type': 'application/json',
-            'X-Miniprogram-Auth': skey
-          },
-          success: res => {
-            if (hasError(res.data)) {
-              resolveFn(res.data.result, res.data.message)
-            } else {
-              if (skey && res.data.code === CODE.NO_BASE_INFO) {
-                wx.removeStorageSync('skey')
-                utils.wxLogin().then(({skey = ''}) => {
-                  wx.setStorageSync('skey', skey)
-                  wxRequest(resolveFn, rejectFn)
-                })
-              } else {
-                rejectFn(res.data)
-              }
-            }
-          },
-          fail: res => {
-            rejectFn(res.data)
-          },
-          complete: res => {
-            endLoading(loadingType)
-            if (urlArray.indexOf(api.uri) > -1) {
-              return
-            }
-            let pages = getCurrentPages()
-            let pagesRoute = pages.length > 0 ? pages[pages.length - 1].route : ''
-            if (res.statusCode !== 200 && pagesRoute.indexOf('loadFail') === -1) {
-              wx.showToast({
-                title: '网络不给力~',
-                icon: 'none'
-              })
-            } else if (parseInt(res.data.code) === CODE.NO_USER_INFO && pagesRoute.indexOf('authorization') === -1 && !noNeedAuth) {
-              if (global.st) {
-                utils.replacePage('authorization')
-              } else {
-                utils.changePage('authorization')
-              }
-            } else if (parseInt(res.data.code) === CODE.NO_PHONE) {
-              utils.replacePage('authorization')
-            } else if (parseInt(res.data.code) === CODE.NO_BASE_INFO && pagesRoute.indexOf('authorization') === -1) {
-              if (!skey) {
-                utils.changePage('authorization')
-              }
-            }
+      let skey = wx.getStorageSync('skey') || ''
+      startLoading(loadingType)
+      wx.request({
+        url: uri,
+        data: data,
+        method: api.method ? api.method : 'POST',
+        header: {
+          'Content-Type': 'application/json',
+          'X-Miniprogram-Auth': skey
+        },
+        success: res => {
+          if (hasError(res.data)) {
+            resolve(res.data.result, res.data.message)
+          } else {
+            reject(res.data)
           }
-        })
-      }
+        },
+        fail: res => {
+          reject(res.data)
+        },
+        complete: res => {
+          endLoading(loadingType)
+          if (urlArray.indexOf(api.uri) > -1) {
+            return
+          }
+          let pages = getCurrentPages()
+          let pagesRoute = pages.length > 0 ? pages[pages.length - 1].route : ''
+          if (res.statusCode !== 200 && pagesRoute.indexOf('loadFail') === -1) {
+            wx.showToast({
+              title: '网络不给力~',
+              icon: 'none'
+            })
+          } else if (parseInt(res.data.code) === CODE.NO_USER_INFO && pagesRoute.indexOf('authorization') === -1 && !noNeedAuth) {
+            if (global.st) {
+              utils.replacePage('authorization')
+            } else {
+              utils.changePage('authorization')
+            }
+          } else if (parseInt(res.data.code) === CODE.NO_PHONE) {
+            utils.replacePage('authorization')
+          } else if (parseInt(res.data.code) === CODE.NO_BASE_INFO && pagesRoute.indexOf('authorization') === -1) {
+            utils.changePage('authorization')
+          }
+        }
+      })
     })
   }
   if (isLoginReq) {
