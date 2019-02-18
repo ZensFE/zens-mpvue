@@ -12,6 +12,7 @@
 
     },
     onLaunch (options) {
+      wx.removeStorageSync('skey')
       global.scene = options.scene
       // global.wxLoginPromise = utils.wxLogin()
       if (wx.canIUse('getUpdateManager')) {
