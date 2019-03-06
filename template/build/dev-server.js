@@ -1,4 +1,5 @@
 require('./check-versions')()
+var changeEnv = require('./change-env')
 
 var config = require('../config')
 if (!process.env.NODE_ENV) {
@@ -85,21 +86,22 @@ module.exports = new Promise((resolve, reject) => {
   portfinder.basePort = port
   portfinder.getPortPromise()
   .then(newPort => {
-      if (port !== newPort) {
-        console.log(`${port}端口被占用，开启新端口${newPort}`)
+    if (port !== newPort) {
+      console.log(`${port}端口被占用，开启新端口${newPort}`)
+    }
+    var server = app.listen(newPort, 'localhost')
+    // for 小程序的文件保存机制
+    require('webpack-dev-middleware-hard-disk')(compiler, {
+      publicPath: webpackConfig.output.publicPath,
+      quiet: true
+    })
+    resolve({
+      ready: readyPromise,
+      close: () => {
+        server.close()
       }
-      var server = app.listen(newPort, 'localhost')
-      // for 小程序的文件保存机制
-      require('webpack-dev-middleware-hard-disk')(compiler, {
-        publicPath: webpackConfig.output.publicPath,
-        quiet: true
-      })
-      resolve({
-        ready: readyPromise,
-        close: () => {
-          server.close()
-        }
-      })
+    })
+    changeEnv(process.argv[2]).catch(console.error)
   }).catch(error => {
     console.log('没有找到空闲端口，请打开任务管理器杀死进程端口再试', error)
   })
